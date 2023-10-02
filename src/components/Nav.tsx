@@ -13,7 +13,7 @@ const Nav: FC<NavProps> = ({ }) => {
     return (
         <div className='flex justify-between items-center bg-white py-4 px-4 md:px-16 shadow-sm text-primary'>
             <Link href='/' className='font-extrabold text-2xl'>LOGO</Link>
-            <div>
+            {/*<div>
                 <ul className='flex gap-4'>
                     {navList.map((navItem, index) => {
                         return (
@@ -21,7 +21,7 @@ const Nav: FC<NavProps> = ({ }) => {
                         )
                     })}
                 </ul>
-            </div>
+                </div>*/}
             <div className='flex justify-end gap-2 min-w-[150px]'>
                 {loading && <div className='text-strong-highlight'>...loading</div>}
                 {!user && !loading && <div className='cursor-pointer hover:underline' onClick={() => router.push('/login')}>login</div>}
