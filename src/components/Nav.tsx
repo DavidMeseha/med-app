@@ -24,9 +24,9 @@ const Nav: FC<NavProps> = ({ }) => {
             </div>
             <div className='flex justify-end gap-2 min-w-[150px]'>
                 {loading && <div className='text-strong-highlight'>...loading</div>}
-                {!user && <div className='cursor-pointer' onClick={() => router.push('/login')}>login</div>}
-                {user && <div onClick={logout} className='cursor-pointer'>logout</div>}
-                {user && <div> Hello <Link href={`/profile/${user.id}`}>{user.name.split(' ')[0]}</Link> ! </div>}
+                {!user && !loading && <div className='cursor-pointer hover:underline' onClick={() => router.push('/login')}>login</div>}
+                {user && <div onClick={logout} className='cursor-pointer hover:underline'>logout</div>}
+                {user && <div className='hover:underline'> Hello <Link href={`/profile/${user.id}`}>{user.name.split(' ')[0]}</Link> ! </div>}
             </div>
         </div>
     );
