@@ -1,0 +1,75 @@
+import useUser from '@/hooks/useUser';
+import { type FC, useState, useEffect } from 'react';
+import { NextPageContext } from 'next'
+import { useRouter } from 'next/router';
+
+interface userProps { }
+
+export interface Note {
+    doctor: { name: string, id: string }
+    date: Date
+    body: string
+}
+
+
+const UserProfile: FC<userProps> = ({ }) => {
+    const { user, loading } = useUser()
+    const router = useRouter()
+    const [notes, setNotes] = useState<Note[]>([])
+    const [loadingNotes, setLoading] = useState(false)
+
+    useEffect(() => {
+        if(loading || !user) return
+        setLoading(true)
+        fetch('/api/notes/' + user?.id).then(async response => {
+            if (response.status === 200) {
+                let data = await response.json()
+                setNotes(data)
+            } else {
+                router.push('/login')
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+
+        setLoading(false)
+    }, [user])
+
+    if (loading) return
+
+    if (user) {
+        return (
+            <div className='flex justify-center items-center h-full'>
+                <div className='space-y-4 w-11/12 max-w-[400px] p-4 bg-white shadow-sm rounded-md'>
+                    <div className='text-center font-bold text-lg text-primary'>{user.name}</div>
+                    <div className=''>Doctors Notes</div>
+                    <div>
+                        <ul className='space-y-4'>
+                            {notes.map((note) => {
+                                if (!note) return
+                                return (
+                                    <li className='p-2 rounded-md bg-highlight'>
+                                        <div className='space-y-2'>
+                                            <div className='flex justify-between items-center'>
+                                                <div className='text-base'>{note.doctor.name}</div>
+                                                <div className='text-xs'>Today</div>
+                                            </div>
+                                            <p className='text-sm'>{note.body}</p>
+                                        </div>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+export default UserProfile;
+
+export const getInitialProps = async (ctx: NextPageContext) => {
+    const res = await fetch('https://api.github.com/repos/vercel/next.js')
+    const json = await res.json()
+    return { stars: json.stargazers_count }
+}
