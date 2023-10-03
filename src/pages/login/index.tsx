@@ -32,7 +32,7 @@ const index: FC<indexProps> = ({ }) => {
         if (response.status === 200) {
             let data = await response.json()
             setUser(data)
-            router.push('/')
+            router.push(`/profile/${data.id}`)
         }
     }
 

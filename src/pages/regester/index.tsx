@@ -35,9 +35,7 @@ const index = ({ }) => {
       if (response.status === 402) return setErrorMessage('Email Already Regestered')
       if (response.status === 200) {
         setDoneMessage('You Regestered successfuly')
-        setTimeout(()=>{
-          router.push('/login')
-        },1500)
+        router.push('/login')
       }
     } catch (error) {
       //console.log(error)

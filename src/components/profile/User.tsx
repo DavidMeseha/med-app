@@ -1,6 +1,5 @@
 import useUser from '@/hooks/useUser';
 import { type FC, useState, useEffect } from 'react';
-import { NextPageContext } from 'next'
 import { useRouter } from 'next/router';
 
 interface userProps { }

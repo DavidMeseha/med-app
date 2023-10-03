@@ -25,6 +25,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
+    "cypress": "^13.3.0",
     "postcss": "latest",
     "tailwindcss": "latest",
     "typescript": "latest"
