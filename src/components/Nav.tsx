@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { navList } from '@/constants/navigation';
+//import { navList } from '@/constants/navigation';
 import { useRouter } from 'next/router';
 import useUser from '@/hooks/useUser';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ const Nav: FC<NavProps> = ({ }) => {
                 {loading && <div className='text-strong-highlight'>...loading</div>}
                 {!user && !loading && <div className='cursor-pointer hover:underline' onClick={() => router.push('/login')}>login</div>}
                 {user && <div onClick={logout} className='cursor-pointer hover:underline'>logout</div>}
-                {user && <div className='hover:underline'> Hello <Link href={`/profile/${user.id}`}>{user.name.split(' ')[0]}</Link> ! </div>}
+                {user && <div className='cursor-pointer hover:underline'> Hello <Link href={`/profile/${user.id}`}>{user.name.split(' ')[0]}</Link> ! </div>}
             </div>
         </div>
     );

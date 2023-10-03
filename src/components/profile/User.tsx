@@ -19,7 +19,7 @@ const UserProfile: FC<userProps> = ({ }) => {
     const [loadingNotes, setLoading] = useState(false)
 
     useEffect(() => {
-        if(loading || !user) return
+        if (loading || !user) return
         setLoading(true)
         fetch('/api/notes/' + user?.id).then(async response => {
             if (response.status === 200) {
@@ -59,6 +59,9 @@ const UserProfile: FC<userProps> = ({ }) => {
                                     </li>
                                 )
                             })}
+                            <li className='p-2 rounded-md'>
+                                <p className='text-gray-400 text-xs'>This is a non-doctor's Profile Page and listed all notes for this user.</p>
+                            </li>
                         </ul>
                     </div>
                 </div>

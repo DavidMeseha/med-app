@@ -47,6 +47,11 @@ const Doctor: FC<doctorProps> = ({ }) => {
                                         </li>
                                     )
                                 })}
+
+                                <li className='p-2 rounded-md'>
+                                    <p className='text-gray-400 text-xs'>This is a Doctor's Profile Page and listed all non-doctor users.</p>
+                                    <p className='text-gray-400 text-xs'>You Can Add Notes to any non-doctor user.</p>
+                                </li>
                             </ul>
                         }
                     </div>
