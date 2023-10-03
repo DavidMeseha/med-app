@@ -51,9 +51,13 @@ const UserProfile: FC<userProps> = ({ }) => {
                                 let today = new Date()
 
                                 let def: number = (today as any) - (date as any)
-                                def = Math.floor(def / 1000 / 60)
-                                let display = def + ' min ago'
+                                def = Math.floor(def / 1000)
+                                let display = def + ' secs ago'
 
+                                if (def >= 60) {
+                                    def = Math.floor(def / 60)
+                                    display = def + ' mins ago'
+                                }
                                 if (def >= 60) {
                                     def = Math.floor(def / 60)
                                     display = def + ' hrs ago'
@@ -62,7 +66,7 @@ const UserProfile: FC<userProps> = ({ }) => {
                                     def = Math.floor(def / 24)
                                     display = def + ' days ago'
                                 }
-                                if(def >= 31){
+                                if (def >= 31) {
                                     def = Math.floor(def / 30)
                                     display = def + ' months ago'
                                 }
