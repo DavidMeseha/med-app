@@ -47,12 +47,32 @@ const UserProfile: FC<userProps> = ({ }) => {
                         <ul className='space-y-4'>
                             {notes.map((note) => {
                                 if (!note) return
+                                let date = new Date(note.date)//.toLocaleDateString('en',{day:'numeric', month:'numeric'})
+                                let today = new Date()
+
+                                let def: number = (today as any) - (date as any)
+                                def = Math.floor(def / 1000 / 60)
+                                let display = def + ' min ago'
+
+                                if (def >= 60) {
+                                    def = Math.floor(def / 60)
+                                    display = def + ' hrs ago'
+                                }
+                                if (def >= 24) {
+                                    def = Math.floor(def / 24)
+                                    display = def + ' days ago'
+                                }
+                                if(def >= 31){
+                                    def = Math.floor(def / 30)
+                                    display = def + ' months ago'
+                                }
+
                                 return (
                                     <li className='p-2 rounded-md bg-highlight'>
                                         <div className='space-y-2'>
                                             <div className='flex justify-between items-center'>
-                                                <div className='text-base'>{note.doctor.name}</div>
-                                                <div className='text-xs'>Today</div>
+                                                <div className='text-base text-primary'>{note.doctor.name}</div>
+                                                <div className='text-xs'>{display}</div>
                                             </div>
                                             <p className='text-sm'>{note.body}</p>
                                         </div>

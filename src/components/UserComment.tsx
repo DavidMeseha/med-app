@@ -17,15 +17,13 @@ const UserComment: FC<UserCommentProps> = ({ id }) => {
     const [loading, setLoading] = useState(false)
 
     const addComment = () => {
+        setLoading(true)
+        
         let body = {
             to: id,
             doctor: user?.id,
             comment
         }
-
-        console.log(body)
-
-        setLoading(true)
 
         fetch('/api/note', { method: 'POST', body: JSON.stringify(body) }).then((res) => {
             if (res.status === 200) {
