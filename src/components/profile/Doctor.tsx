@@ -26,7 +26,7 @@ const Doctor: FC<doctorProps> = ({ }) => {
         })
 
         setLoading(false)
-    }, [])
+    }, [user])
 
     if (user) {
         return (

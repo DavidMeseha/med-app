@@ -32,7 +32,7 @@ const Message: FC<MessageProps> = ({ message, state, setState, type }) => {
         <>
             {state && <div className='fixed left-0 top-20 w-full transition-all duration-1000 z-50' style={{ opacity: exit ? 0 : 1 }}>
                 <div className={`px-10 py-3 w-fit m-auto border-2 rounded-full ${color}`}>
-                    <p>{message}.</p>
+                    <p data-cy="message">{message}.</p>
                 </div >
             </div>}
         </>

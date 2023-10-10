@@ -5,10 +5,10 @@ import { createContext, useState } from 'react';
 export const MessageContext = createContext<{
     setErrorMessage: (s: string) => void
     setDoneMessage: (s: string) => void
-}>({ setErrorMessage: (s) => { }, setDoneMessage: (s) => { } })
+}>({ setErrorMessage: () => { }, setDoneMessage: () => { } })
 
 export const MessageProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [message, setMessage] = useState('x')
+    const [message, setMessage] = useState('')
     const [state, setState] = useState(false)
     const [type, setType] = useState<'error' | 'done'>('error')
 
