@@ -32,7 +32,7 @@ const Nav = () => {
             logout
           </div>
         )}
-        {user && (
+        {user && !isFetching && (
           <div className="cursor-pointer hover:underline">
             {" "}
             Hello <Link href={"/profile"}>

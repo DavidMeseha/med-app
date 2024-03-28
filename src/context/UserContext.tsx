@@ -90,7 +90,10 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
-        isFetching: loginQuery.isPending || loginMutation.isPending,
+        isFetching:
+          loginQuery.isPending ||
+          loginMutation.isPending ||
+          logoutMutation.isPending,
         logout,
         login,
       }}
