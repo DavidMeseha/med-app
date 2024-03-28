@@ -1,8 +1,7 @@
 import useUser from "@/hooks/useUser";
-import { type FC, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-
-interface userProps {}
+import { type FC } from "react";
+import Link from "next/link";
+import NotesList from "../NotesList";
 
 export interface Note {
   doctor: { name: string; id: string };
@@ -10,32 +9,20 @@ export interface Note {
   body: string;
 }
 
-const UserProfile: FC<userProps> = ({}) => {
-  const { user, loading } = useUser();
-  const router = useRouter();
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [loadingNotes, setLoading] = useState(false);
+const UserProfile = () => {
+  const { user, isFetching } = useUser();
 
-  useEffect(() => {
-    if (loading || !user) return;
-    setLoading(true);
-    fetch("/api/notes/" + user?.id)
-      .then(async (response) => {
-        if (response.status === 200) {
-          let data = await response.json();
-          setNotes(data);
-        } else {
-          router.push("/login");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  if (isFetching) return <div className="mt-28 text-center">Loading...</div>;
 
-    setLoading(false);
-  }, [user]);
-
-  if (loading || loadingNotes) return "Loading...";
+  if (!user && !isFetching)
+    return (
+      <div className="mt-28 text-center">
+        You Need To
+        <span className="text-blue-700 underline ms-2">
+          <Link href="/login">Login</Link>
+        </span>
+      </div>
+    );
 
   if (user) {
     return (
@@ -45,56 +32,7 @@ const UserProfile: FC<userProps> = ({}) => {
             {user.name}
           </div>
           <div className="">Doctors Notes</div>
-          <div>
-            <ul className="space-y-4">
-              {notes.map((note) => {
-                if (!note) return;
-                let date = new Date(note.date); //.toLocaleDateString('en',{day:'numeric', month:'numeric'})
-                let today = new Date();
-
-                let def: number = (today as any) - (date as any);
-                def = Math.floor(def / 1000);
-                let display = def + " secs ago";
-
-                if (def >= 60) {
-                  def = Math.floor(def / 60);
-                  display = def + " mins ago";
-                }
-                if (def >= 60 * 60) {
-                  def = Math.floor(def / (60 * 60));
-                  display = def + " hrs ago";
-                }
-                if (def >= 24 * 60 * 60) {
-                  def = Math.floor(def / (24 * 60 * 60));
-                  display = def + " days ago";
-                }
-                if (def >= 31 * 24 * 60 * 60) {
-                  def = Math.floor((def / 31) * 24 * 60 * 60);
-                  display = def + " months ago";
-                }
-
-                return (
-                  <li className="p-2 rounded-md bg-highlight">
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <div className="text-base text-primary">
-                          {note.doctor.name}
-                        </div>
-                        <div className="text-xs">{display}</div>
-                      </div>
-                      <p className="text-sm">{note.body}</p>
-                    </div>
-                  </li>
-                );
-              })}
-              <li className="p-2 rounded-md">
-                <p className="text-gray-400 text-xs">
-                  This is a non-doctor's Profile Page and listed all notes for
-                  this user.
-                </p>
-              </li>
-            </ul>
-          </div>
+          <NotesList />
         </div>
       </div>
     );

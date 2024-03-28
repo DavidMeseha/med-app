@@ -47,7 +47,7 @@ const UserComment: FC<UserCommentProps> = ({ id }) => {
     return (
         <div className='flex gap-2 w-full'>
             <div className='grow'>
-                <Input onChange={(e) => setComment(e.target.value)} value={comment} type='text' placeholder='comment' required />
+                <Input onChange={(e) => setComment(e.target.value)} value={comment} type='text' placeholder='comment' name='comment' required />
             </div>
             <div className='w-20'>
                 <Button onClick={addComment} loading={loading} >send</Button>

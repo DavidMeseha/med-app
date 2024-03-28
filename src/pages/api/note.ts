@@ -1,29 +1,31 @@
 import dbConnect from "@/lib/dbConnection";
 import Users from "@/models/Users";
+import getDataFromToken from "@/utility/getUserFromToken";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { doctor:docId, to, comment } = JSON.parse(req.body)
-    let notes
+  const { to, comment } = JSON.parse(req.body);
+  const doctor = await getDataFromToken(req);
+  if (!doctor || doctor.role !== "doctor")
+    return res.status(401).json("unauthorized");
 
-    let doctor = await Users.findById(docId).exec()
-    console.log(doctor)
+  const foundDoctor = await Users.findById(doctor.id).exec();
 
-    if (!to || !doctor || !comment) return res.status(500).json('added');
-    console.log(to, doctor)
+  if (!to || !foundDoctor || !comment)
+    return res.status(500).json("Failed To Add");
 
-    dbConnect()
-    let user = await Users.findById({ _id: to })
-    notes = user.notes || []
+  dbConnect();
+  const user = await Users.findById({ _id: to });
+  const notes = user.notes || [];
 
-    notes.push({
-        doctor: { id: doctor._id, name: doctor.name },
-        date: new Date(),
-        body: comment
-    })
+  notes.push({
+    doctor: { id: foundDoctor._id, name: foundDoctor.name },
+    date: new Date(),
+    body: comment,
+  });
 
-    await Users.findOneAndUpdate({ email: user.email }, { notes: notes })
-    return res.status(200).json('added');
+  await Users.findOneAndUpdate({ email: user.email }, { notes: notes });
+  return res.status(200).json("added");
 };
 
 export default handler;
