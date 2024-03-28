@@ -21,7 +21,7 @@ const Nav = () => {
             login
           </div>
         )}
-        {user && (
+        {user && !isFetching && (
           <div
             onClick={() => {
               if (router.pathname.startsWith("/profile")) router.push("/");
@@ -34,10 +34,7 @@ const Nav = () => {
         )}
         {user && !isFetching && (
           <div className="cursor-pointer hover:underline">
-            {" "}
-            Hello <Link href={"/profile"}>
-              {user.name.split(" ")[0]}
-            </Link> !{" "}
+            Hello <Link href={"/profile"}>{user.name.split(" ")[0]}</Link> !
           </div>
         )}
       </div>
