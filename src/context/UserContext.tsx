@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { createContext, ReactNode, type FC, useState, useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 export interface User {
   id: string;
@@ -33,6 +34,7 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const { setErrorMessage } = useMessage();
   const [user, setUser] = useState<User | null>(null);
+  const { t } = useTranslation();
 
   const loginQuery = useQuery({
     queryKey: ["user"],
@@ -63,9 +65,9 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
     },
     onError: (error: AxiosError) => {
       if (error.response?.status === 500)
-        return setErrorMessage("Internal server error");
+        return setErrorMessage(t("internalServerError"));
       if (error.response?.status === 401 || error.response?.status === 404)
-        setErrorMessage("Wrong email or Password");
+        setErrorMessage(t("wrongEmailOrPassword"));
       queryClient.clear();
     },
   });
@@ -102,4 +104,5 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
 export default UserContext;

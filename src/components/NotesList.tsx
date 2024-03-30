@@ -2,8 +2,11 @@ import { formatTime } from "@/utility/formatTime";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Note } from "./profile/User";
+import { useTranslation } from "next-i18next";
 
 export default function NotesList() {
+  const { t } = useTranslation();
+
   const { data, isFetching } = useQuery({
     queryKey: ["notes"],
     queryFn: async () =>
@@ -13,7 +16,7 @@ export default function NotesList() {
   return (
     <ul className="space-y-4">
       {isFetching ? (
-        <div className="my-6 text-center">Loading</div>
+        <div className="my-6 text-center">{t("loading")}</div>
       ) : !!data && data?.length > 0 ? (
         data.map((note, i) => {
           return (
@@ -31,13 +34,10 @@ export default function NotesList() {
           );
         })
       ) : (
-        <div className="my-10 text-center">No notes avilable</div>
+        <div className="my-10 text-center">{t("noNotesAvailable")}</div>
       )}
       <li className="p-2 rounded-md">
-        <p className="text-gray-400 text-xs">
-          This is a non-doctor's Profile Page and listed all notes for this
-          user.
-        </p>
+        <p className="text-gray-400 text-xs">{t("nonDoctorProfile")}</p>
       </li>
     </ul>
   );

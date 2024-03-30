@@ -2,19 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {}
+:root {
+}
 
 @media (prefers-color-scheme: dark) {
-  :root {}
+  :root {
+  }
 }
 
 body {
-  background: #f9faff
+  background: #f9faff;
 }
 
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+.rtl input {
+  direction: ltr;
+}
 
 .back-image {
-  background-image: url('/doctor&paitant.jpg');
+  background-image: url("/doctor&paitant.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position-x: center;
@@ -48,7 +61,7 @@ body {
   border: 1px solid var(--grey);
 }
 
-.checkbox input:checked~.checkmark {
+.checkbox input:checked ~ .checkmark {
   background-color: var(--green);
 }
 
@@ -58,7 +71,7 @@ body {
   display: none;
 }
 
-.checkbox input:checked~.checkmark:after {
+.checkbox input:checked ~ .checkmark:after {
   display: block;
 }
 

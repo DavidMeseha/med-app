@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import Users from "@/models/Users";
 import CryptoJS from "crypto-js";
 import dbConnect from "@/lib/dbConnection";

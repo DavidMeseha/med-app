@@ -1,12 +1,10 @@
 import Doctor from '@/components/profile/Doctor';
-import UserProfile, { Note } from '@/components/profile/User';
+import UserProfile from '@/components/profile/User';
 import useUser from '@/hooks/useUser';
-import { NextPageContext } from 'next';
-import { type FC } from 'react';
+import { GetStaticPropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-interface ProfileProps { }
-
-const Profile: FC<ProfileProps> = ({ }) => {
+const Profile = () => {
     const { user } = useUser()
 
     if (user?.role === 'doctor') return <Doctor />
@@ -14,9 +12,10 @@ const Profile: FC<ProfileProps> = ({ }) => {
 }
 export default Profile;
 
-export const getServerSideProps = (async (context: NextPageContext) => {
-    let { id } = context.query
-    let cookie = context.req
-    console.log(id)
-    return { props: {} }
-})
+export async function getStaticProps({ locale }: GetStaticPropsContext) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale as string, "common")),
+      },
+    };
+  }
