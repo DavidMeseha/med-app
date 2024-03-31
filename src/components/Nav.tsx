@@ -48,6 +48,7 @@ const Nav = () => {
         )}
         <div>|</div>
         <Link
+          className="hover:underline"
           href={router.pathname}
           locale={router.locale === "en" ? "ar" : "en"}
         >

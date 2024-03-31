@@ -8,8 +8,9 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Providers: FC<LayoutProps> = ({ children }) => {
+const AppLayout: FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
+
   return (
     <MessageProvider>
       <UserProvider>
@@ -24,4 +25,4 @@ const Providers: FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Providers;
+export default AppLayout;

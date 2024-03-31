@@ -1,4 +1,4 @@
-import Providers from "@/components/Providers";
+import AppLayout from "@/components/AppLayout";
 import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
@@ -10,10 +10,10 @@ export const queryClient = new QueryClient();
 function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Providers>
+      <AppLayout>
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} />
-      </Providers>
+      </AppLayout>
     </QueryClientProvider>
   );
 }

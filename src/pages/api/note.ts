@@ -4,8 +4,9 @@ import getDataFromToken from "@/utility/getUserFromToken";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { to, comment } = JSON.parse(req.body);
+  const { to, comment } = req.body;
   const doctor = await getDataFromToken(req);
+  
   if (!doctor || doctor.role !== "doctor")
     return res.status(401).json("unauthorized");
 

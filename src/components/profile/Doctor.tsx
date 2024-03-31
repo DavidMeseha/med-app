@@ -1,35 +1,23 @@
 import useUser from "@/hooks/useUser";
-import { type FC, useState, useEffect } from "react";
 import UserComment from "../UserComment";
-import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-interface doctorProps {}
-
-const Doctor: FC<doctorProps> = ({}) => {
+const Doctor = () => {
   const { user } = useUser();
   const { t } = useTranslation();
-  const router = useRouter();
-  const [users, setUsers] = useState<any[]>([]);
-  const [loadingUsers, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    fetch("/api/users")
-      .then(async (response) => {
-        if (response.status === 200) {
-          let data = await response.json();
-          setUsers(data);
-        } else {
-          router.push("/login");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    setLoading(false);
-  }, [user]);
+  const { data, isFetching } = useQuery<
+    {
+      _id: string;
+      name: string;
+      email: string;
+    }[]
+  >({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((response) => response.data),
+  });
 
   if (user) {
     return (
@@ -39,12 +27,12 @@ const Doctor: FC<doctorProps> = ({}) => {
             {user.name}
           </div>
           <div>
-            {loadingUsers && <div className="text-center">{t("loading")}</div>}
-            {!loadingUsers && (
+            {isFetching && <div className="text-center">{t("loading")}</div>}
+            {!isFetching && !!data && (
               <ul className="space-y-4">
-                {users.map((paitanat) => {
+                {data.map((paitanat, i) => {
                   return (
-                    <li className="p-2 rounded-md bg-highlight">
+                    <li key={i} className="p-2 rounded-md bg-highlight">
                       <div className="space-y-2">
                         <div className="text-base">{paitanat.name}</div>
                         <UserComment id={paitanat._id} />

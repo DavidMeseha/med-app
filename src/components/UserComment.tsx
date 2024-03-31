@@ -5,46 +5,39 @@ import useUser from "@/hooks/useUser";
 import useMessage from "@/hooks/useMessage";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 
 interface UserCommentProps {
   id: string;
 }
 
 const UserComment: FC<UserCommentProps> = ({ id }) => {
-  const { user } = useUser();
   const router = useRouter();
   const { setDoneMessage, setErrorMessage } = useMessage();
   const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
-  const addComment = () => {
-    setLoading(true);
-
-    let body = {
-      to: id,
-      doctor: user?.id,
-      comment,
-    };
-
-    fetch("/api/note", { method: "POST", body: JSON.stringify(body) })
-      .then((res) => {
-        if (res.status === 200) {
+  const addCommentMutation = useMutation({
+    mutationKey: ["add-comment"],
+    mutationFn: ({ to, comment }: { to: string; comment: string }) =>
+      axios.post<string>("/api/note", { to, comment }).then((response) => {
+        if (response?.status === 200) {
           setDoneMessage(t("commentAddedSuccessfuly"));
-        } else if (res.status === 401) {
-          setErrorMessage(t("notAuthorized"));
-          router.push("/login");
-        } else {
-          setErrorMessage(t("serverErrorComment"));
         }
-      })
-      .catch((e) => {
+        return response.data;
+      }),
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 401) {
+        setErrorMessage(t("notAuthorized"));
+        router.push("/login");
+      } else {
         setErrorMessage(t("serverErrorComment"));
-        console.log(e);
-      });
+      }
+    },
+  });
 
-    setLoading(false);
-  };
+  const addComment = () => addCommentMutation.mutate({ to: id, comment });
 
   return (
     <div className="flex gap-2 w-full">
@@ -59,7 +52,7 @@ const UserComment: FC<UserCommentProps> = ({ id }) => {
         />
       </div>
       <div className="w-20">
-        <Button onClick={addComment} loading={loading}>
+        <Button onClick={addComment} loading={addCommentMutation.isPending}>
           {t("send")}
         </Button>
       </div>
