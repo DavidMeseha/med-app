@@ -24,7 +24,7 @@ const Doctor = () => {
       <div className="flex justify-center items-center h-full">
         <div className="space-y-4 w-11/12 max-w-[400px] p-4 bg-white shadow-sm rounded-md">
           <div className="text-center font-bold text-lg text-primary">
-            {user.name}
+            Dr.{user.name}
           </div>
           <div>
             {isFetching && <div className="text-center">{t("loading")}</div>}
