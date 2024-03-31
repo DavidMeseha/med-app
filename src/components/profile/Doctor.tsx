@@ -3,6 +3,7 @@ import UserComment from "../UserComment";
 import { useTranslation } from "next-i18next";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Head from "next/head";
 
 const Doctor = () => {
   const { user } = useUser();

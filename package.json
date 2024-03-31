@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "latest",
+    "@types/nprogress": "^0.2.3",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",

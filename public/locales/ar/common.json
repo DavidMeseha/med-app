@@ -1,4 +1,6 @@
 {
+  "profile": "الحساب",
+  "home": "الصفحه الرأيسيه",
   "doctor": "طبيب",
   "user": "مستخدم",
   "name": "الاسم",
@@ -30,5 +32,6 @@
   "notAuthorized": "أنت غير مخول.",
   "canAddNotesToNonDoctor": "يمكنك إضافة ملاحظات إلى أي مستخدم غير طبيب.",
   "doctorNotes": "ملاحظات الطبيب",
-  "youNeedTo": "تحتاج إلى"
+  "youNeedTo": "تحتاج إلى",
+  "PasswordConfirmNotMatching": "كلمة المرور وتأكيد كلمة المرور غير متطابقين"
 }

@@ -1,4 +1,6 @@
 {
+  "profile": "Profile",
+  "home": "Home",
   "doctor": "As Doctor",
   "user": "As User",
   "name": "Your Name",
@@ -30,5 +32,6 @@
   "notAuthorized": "You are not authorized",
   "canAddNotesToNonDoctor": "You Can Add Notes to any non-doctor user.",
   "doctorNotes": "Doctor's Notes",
-  "youNeedTo": "You Need To"
+  "youNeedTo": "You Need To",
+  "PasswordConfirmNotMatching": "Password and confirm password are not matching"
 }

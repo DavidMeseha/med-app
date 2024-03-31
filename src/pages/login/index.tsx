@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
+import PageTitle from "@/components/PageTitle";
 
 const index = () => {
   const [email, setEmail] = useState("");
@@ -21,45 +22,48 @@ const index = () => {
 
   if (!user)
     return (
-      <div className="flex justify-center items-center h-full">
-        <form
-          onSubmit={submitHandle}
-          className="space-y-4 w-11/12 max-w-[400px] p-4 bg-white shadow-sm rounded-md"
-        >
-          <div className="flex justify-between items-center w-full">
-            <div className="font-bold text-3xl">{t("login")}</div>
-            <div
-              onClick={() => router.push("/regester")}
-              className="text-primary text-sm underline cursor-pointer"
-            >
-              {t("dontHaveAccount")}
+      <>
+      <PageTitle title={t("login")}/>
+        <div className="flex justify-center items-center h-full">
+          <form
+            onSubmit={submitHandle}
+            className="space-y-4 w-11/12 max-w-[400px] p-4 bg-white shadow-sm rounded-md"
+          >
+            <div className="flex justify-between items-center w-full">
+              <div className="font-bold text-3xl">{t("login")}</div>
+              <div
+                onClick={() => router.push("/register")}
+                className="text-primary text-sm underline cursor-pointer"
+              >
+                {t("dontHaveAccount")}
+              </div>
             </div>
-          </div>
-          <div>
-            <Input
-              type="email"
-              placeholder={t("email")}
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              name="email"
-              required
-            />
-          </div>
-          <div>
-            <Input
-              type="password"
-              placeholder={t("password")}
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              name="password"
-              required
-            />
-          </div>
-          <Button onClick={() => {}} loading={isFetching}>
-            {t("login")}
-          </Button>
-        </form>
-      </div>
+            <div>
+              <Input
+                type="email"
+                placeholder={t("email")}
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                name="email"
+                required
+              />
+            </div>
+            <div>
+              <Input
+                type="password"
+                placeholder={t("password")}
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                name="password"
+                required
+              />
+            </div>
+            <Button onClick={() => {}} loading={isFetching}>
+              {t("login")}
+            </Button>
+          </form>
+        </div>
+      </>
     );
 };
 export default index;
