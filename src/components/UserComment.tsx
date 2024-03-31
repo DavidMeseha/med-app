@@ -21,12 +21,13 @@ const UserComment: FC<UserCommentProps> = ({ id }) => {
   const addCommentMutation = useMutation({
     mutationKey: ["add-comment"],
     mutationFn: ({ to, comment }: { to: string; comment: string }) =>
-      axios.post<string>("/api/note", { to, comment }).then((response) => {
-        if (response?.status === 200) {
-          setDoneMessage(t("commentAddedSuccessfuly"));
-        }
-        return response.data;
-      }),
+      axios
+        .post<string>("/api/note", { to, comment })
+        .then((response) => response.data),
+    onSuccess: () => {
+      setDoneMessage(t("commentAddedSuccessfuly"));
+      setComment("");
+    },
     onError: (error: AxiosError) => {
       if (error.response?.status === 401) {
         setErrorMessage(t("notAuthorized"));
