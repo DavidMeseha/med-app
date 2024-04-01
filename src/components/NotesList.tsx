@@ -14,7 +14,7 @@ export default function NotesList() {
   });
 
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-4 overflow-auto max-h-[50vh]">
       {isFetching ? (
         <div className="my-6 text-center">{t("loading")}</div>
       ) : !!data && data?.length > 0 ? (
@@ -36,9 +36,6 @@ export default function NotesList() {
       ) : (
         <div className="my-10 text-center">{t("noNotesAvailable")}</div>
       )}
-      <li className="p-2 rounded-md">
-        <p className="text-gray-400 text-xs">{t("nonDoctorProfile")}</p>
-      </li>
     </ul>
   );
 }

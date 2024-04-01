@@ -35,6 +35,9 @@ const UserProfile = () => {
           </div>
           <div>{t("doctorNotes")}</div>
           <NotesList />
+          <div className="p-2 rounded-md">
+            <p className="text-gray-400 text-xs">{t("nonDoctorProfile")}</p>
+          </div>
         </div>
       </div>
     );

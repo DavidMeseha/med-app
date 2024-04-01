@@ -3,7 +3,6 @@ import UserComment from "../UserComment";
 import { useTranslation } from "next-i18next";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Head from "next/head";
 
 const Doctor = () => {
   const { user } = useUser();
@@ -30,7 +29,7 @@ const Doctor = () => {
           <div>
             {isFetching && <div className="text-center">{t("loading")}</div>}
             {!isFetching && !!data && (
-              <ul className="space-y-4">
+              <ul className="space-y-4 overflow-auto max-h-[50vh]">
                 {data.map((paitanat, i) => {
                   return (
                     <li key={i} className="p-2 rounded-md bg-highlight">
@@ -41,15 +40,14 @@ const Doctor = () => {
                     </li>
                   );
                 })}
-
-                <li className="p-2 rounded-md">
-                  <p className="text-gray-400 text-xs">{t("doctorProfile")}</p>
-                  <p className="text-gray-400 text-xs">
-                    {t("canAddNotesToNonDoctor")}
-                  </p>
-                </li>
               </ul>
             )}
+            <div className="p-2 rounded-md">
+              <p className="text-gray-400 text-xs">{t("doctorProfile")}</p>
+              <p className="text-gray-400 text-xs">
+                {t("canAddNotesToNonDoctor")}
+              </p>
+            </div>
           </div>
         </div>
       </div>
