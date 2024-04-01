@@ -15,19 +15,21 @@ interface NewUser {
   name: string;
   email: string;
   password: string;
-  role: string;
+  confirmPassword?: string;
+  role: "doctor" | "user";
 }
 
 const index = ({}) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState<"doctor" | "user">("doctor");
+  const [newUser, setNewUser] = useState<NewUser>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "doctor",
+  });
   const router = useRouter();
   const { setErrorMessage, setDoneMessage } = useMessage();
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false);
 
   const registerMutation = useMutation({
     mutationKey: ["register"],
@@ -47,10 +49,16 @@ const index = ({}) => {
   const regester = async (e: any) => {
     e.preventDefault();
 
-    if (password !== confirmPassword)
+    if (newUser.password !== newUser.confirmPassword)
       return setErrorMessage(t("PasswordConfirmNotMatching"));
 
-    let body: NewUser = { name, email, password, role };
+    let body: NewUser = {
+      name: newUser.name,
+      email: newUser.email,
+      password: newUser.password,
+      role: newUser.role,
+    };
+
     registerMutation.mutate(body);
   };
 
@@ -76,8 +84,8 @@ const index = ({}) => {
             <Input
               type="text"
               placeholder={t("name")}
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+              value={newUser.name}
               required
               name="name"
             />
@@ -86,8 +94,10 @@ const index = ({}) => {
             <Input
               type="email"
               placeholder={t("email")}
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={(e) =>
+                setNewUser({ ...newUser, email: e.target.value })
+              }
+              value={newUser.email}
               required
               name="email"
             />
@@ -96,8 +106,10 @@ const index = ({}) => {
             <Input
               type="password"
               placeholder={t("password")}
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
+              onChange={(e) =>
+                setNewUser({ ...newUser, password: e.target.value })
+              }
+              value={newUser.password}
               required
               name="password"
             />
@@ -106,8 +118,10 @@ const index = ({}) => {
             <Input
               type="password"
               placeholder={t("confirmPassword")}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              value={confirmPassword}
+              onChange={(e) =>
+                setNewUser({ ...newUser, confirmPassword: e.target.value })
+              }
+              value={newUser.confirmPassword || ""}
               required
               name="confirm"
             />
@@ -117,28 +131,34 @@ const index = ({}) => {
               <div
                 data-cy="doctor-switch"
                 className={`p-2 grow cursor-pointer ${
-                  role === "doctor"
+                  newUser.role === "doctor"
                     ? "bg-primary text-white"
                     : "hover:bg-highlight"
                 }`}
-                onClick={() => !loading && setRole("doctor")}
+                onClick={() =>
+                  !registerMutation.isPending &&
+                  setNewUser({ ...newUser, role: "doctor" })
+                }
               >
                 {t("doctor")}
               </div>
               <div
                 data-cy="user-switch"
                 className={`p-2 grow cursor-pointer ${
-                  role === "user"
+                  newUser.role === "user"
                     ? "bg-primary text-white"
                     : "hover:bg-highlight"
                 }`}
-                onClick={() => !loading && setRole("user")}
+                onClick={() =>
+                  !registerMutation.isPending &&
+                  setNewUser({ ...newUser, role: "user" })
+                }
               >
                 {t("user")}
               </div>
             </div>
           </div>
-          <Button onClick={() => {}} loading={loading}>
+          <Button onClick={() => {}} loading={registerMutation.isPending}>
             {t("register")}
           </Button>
         </form>

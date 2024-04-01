@@ -21,7 +21,7 @@ const UserProfile = () => {
       <div className="mt-28 text-center">
         {t("youNeedTo")}
         <span className="text-blue-700 underline ms-2">
-          <Link href="/login">{t("login")}</Link>
+          <Link href="/login"> {t("login")}</Link>
         </span>
       </div>
     );
